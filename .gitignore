@@ -1,0 +1,26 @@
+# Terraform working directory and provider plugins
+.terraform/
+
+# Terraform state may contain passwords, tokens, and infrastructure metadata
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+
+# Local variable values can contain personal or account-specific settings
+terraform.tfvars
+*.auto.tfvars
+*.auto.tfvars.json
+
+# Local Terraform CLI configuration and override files
+.terraformrc
+terraform.rc
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
