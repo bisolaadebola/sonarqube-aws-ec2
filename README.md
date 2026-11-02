@@ -39,6 +39,38 @@ Use `terraform output` to view the outputs. Use the `instance_id` output to conn
 
 This repository provisions the SonarQube server; it does not itself scan application or infrastructure code. To analyze `ecommerce-eks-terraform-infrastructure`, configure that project in SonarQube and run a SonarScanner analysis against a checkout of that repository, for example from a CI workflow. Store the SonarQube URL and an analysis token as CI secrets, and grant the token only the permissions it needs. Keep the target repository's Terraform state and variable files out of its source control as well.
 
+## Project screenshots
+
+### AWS architecture
+
+![SonarQube AWS architecture](docs/screenshots/sonarqube-aws-architecture.png)
+
+### GitHub Actions workflow
+
+Successful workflow run:
+
+![Ecommerce Terraform GitHub Actions success](docs/screenshots/ecommerce-terraform-github-actions-success.png)
+
+Successful SonarQube scan step:
+
+![SonarQube scan step success](docs/screenshots/ecommerce-terraform-sonarqube-scan-step-success.png)
+
+### SonarQube project results
+
+Project overview with the passed quality gate:
+
+![Ecommerce Terraform SonarQube project overview](docs/screenshots/ecommerce-terraform-sonarqube-project-overview.png)
+
+Project list showing the analyzed project and summary:
+
+![Ecommerce Terraform SonarQube analysis summary](docs/screenshots/ecommerce-terraform-sonarqube-analysis-results.png)
+
+### Quality profiles
+
+This captured view is filtered to Azure Resource Manager; it is included as a reference to the SonarQube quality profile interface and does not show the Terraform profile selection.
+
+![SonarQube quality profiles](docs/screenshots/sonarqube-quality-profiles.png)
+
 ## Terraform state and secrets
 
 Terraform state can contain generated database credentials and other sensitive infrastructure data. This repository ignores state files, local variable files, and Terraform's working directory. Do not commit those files. For a shared or production deployment, configure a protected remote state backend with encryption, access controls, and state locking.
