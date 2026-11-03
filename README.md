@@ -15,11 +15,13 @@ The security group exposes HTTP (port 80) for certificate validation and HTTPS (
 ## Requirements
 
 - Terraform 1.5 or newer
-- AWS CLI credentials with permission to create the resources in `main.tf`
+- AWS CLI credentials with permission to create the resources defined in the Terraform files
 - A DNS name you control, with permission to create an A record
 - An email address for Let's Encrypt notifications
 
 ## Configure and deploy
+
+Terraform configuration is split by purpose: `providers.tf` configures Terraform and AWS, `variables.tf` declares inputs, `networking.tf` creates the VPC and security group, `iam.tf` configures the EC2 role for Session Manager, `compute.tf` creates the EC2 host and supporting resources, and `outputs.tf` declares deployment outputs. Terraform loads all `.tf` files in this directory together.
 
 1. Copy `terraform.tfvars.example` to `terraform.tfvars` and set your domain and Let's Encrypt email.
 2. Make sure your DNS provider can point the chosen hostname to the Elastic IP. After apply, use Terraform's `public_ip` output to create an A record for the hostname.
