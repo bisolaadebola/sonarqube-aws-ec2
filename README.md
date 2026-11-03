@@ -35,15 +35,19 @@ The security group exposes HTTP (port 80) for certificate validation and HTTPS (
 
 Use `terraform output` to view the outputs. Use the `instance_id` output to connect through Systems Manager in the AWS console.
 
-## Scanning another repository
+## Infrastructure scan with SonarQube
 
-This repository provisions the SonarQube server; it does not itself scan application or infrastructure code. To analyze `ecommerce-eks-terraform-infrastructure`, configure that project in SonarQube and run a SonarScanner analysis against a checkout of that repository, for example from a CI workflow. Store the SonarQube URL and an analysis token as CI secrets, and grant the token only the permissions it needs. Keep the target repository's Terraform state and variable files out of its source control as well.
+I scanned my ecommerce infrastructure in the `ecommerce-eks-terraform-infrastructure` repository with SonarQube. I generated an analysis token in SonarQube, added the SonarQube server URL and token as GitHub Actions secrets in my infrastructure repository, and ran its GitHub Actions workflow. The workflow ran SonarScanner on my Terraform code and uploaded the results to my SonarQube server over HTTPS. The scan completed successfully, and the analysis appeared in my SonarQube project.
+
+The scan results are available in the SonarQube project overview and project list. The captured overview shows the project passing its quality gate; SonarQube also provides the analysis summary and issue details for the submitted project. The workflow and scanner screenshots document a successful run and completed analysis. The quality profile screenshot is included as a reference to the SonarQube interface; it is filtered to Azure Resource Manager and does not establish which profile was applied to the Terraform project.
+
+The workflow reads the SonarQube URL and token from repository secrets, so the token is not stored in source code. Terraform state files and secret variable files should also stay out of source control.
 
 ## Project screenshots
 
 ### AWS architecture
 
-![SonarQube AWS architecture](docs/screenshots/sonarqube-aws-architecture.png)
+![SonarQube AWS architecture](docs/sonarqube-aws-architecture.svg)
 
 ### GitHub Actions workflow
 
