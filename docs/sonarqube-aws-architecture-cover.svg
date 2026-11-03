@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2500" height="1000" viewBox="0 0 2500 1000" role="img" aria-labelledby="cover-title cover-desc">
+  <title id="cover-title">SonarQube AWS architecture cover</title>
+  <desc id="cover-desc">Full SonarQube AWS architecture diagram scaled to fit inside a wide Notion cover.</desc>
+  <rect width="2500" height="1000" fill="#f4f7fb"/>
+  <svg x="450" y="0" width="1600" height="1000" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid meet">
+<title id="title">SonarQube on AWS EC2 architecture</title>
+  <desc id="desc">Terraform provisions an AWS EC2 host running SonarQube, PostgreSQL, Nginx, and Let's Encrypt with Docker Compose. Users access it through DNS over HTTPS. GitHub Actions scans the ecommerce EKS Terraform repository and sends analysis to SonarQube.</desc>
+  <defs>
+    <marker id="arrow-blue" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M1,1 L11,6 L1,11 Z" fill="#3478b8"/></marker>
+    <marker id="arrow-purple" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M1,1 L11,6 L1,11 Z" fill="#7957b5"/></marker>
+    <marker id="arrow-green" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M1,1 L11,6 L1,11 Z" fill="#218878"/></marker>
+    <style>
+      text{font-family:Inter,Segoe UI,Arial,sans-serif;fill:#18324b}
+      .title{font-size:38px;font-weight:750;letter-spacing:.2px}
+      .subtitle{font-size:19px;fill:#536b82}
+      .zone{font-size:22px;font-weight:700;fill:#2d6593}
+      .label{font-size:21px;font-weight:700}
+      .body{font-size:16px;fill:#52677d}
+      .small{font-size:14px;fill:#52677d}
+      .box{fill:#fff;stroke:#3478b8;stroke-width:2.4}
+      .blue{stroke:#3478b8}
+      .teal{stroke:#218878}
+      .purple{stroke:#7957b5}
+      .orange{stroke:#d16b2c}
+      .line{fill:none;stroke:#3478b8;stroke-width:3;marker-end:url(#arrow-blue)}
+      .line-purple{fill:none;stroke:#7957b5;stroke-width:3;marker-end:url(#arrow-purple)}
+      .line-green{fill:none;stroke:#218878;stroke-width:3;marker-end:url(#arrow-green)}
+    </style>
+  </defs>
+  <rect width="1600" height="1000" fill="#f4f7fb"/>
+  <text x="54" y="68" class="title">SONARQUBE ON AWS EC2</text>
+  <text x="56" y="101" class="subtitle">Terraform-managed deployment · Docker Compose · HTTPS · GitHub Actions code analysis</text>
+
+  <!-- Terraform automation -->
+  <rect x="55" y="145" width="285" height="145" rx="16" class="box purple"/>
+  <text x="80" y="184" class="label" fill="#7957b5">Terraform</text>
+  <text x="80" y="215" class="body">VPC, subnet, routes and security group</text>
+  <text x="80" y="241" class="body">EC2, Elastic IP, IAM / Systems Manager</text>
+  <text x="80" y="267" class="body">User data bootstraps Docker Compose</text>
+  <path d="M340 218 H405" class="line-purple"/>
+  <text x="348" y="202" class="small" fill="#7957b5">provisions</text>
+
+  <!-- AWS boundary -->
+  <rect x="405" y="145" width="1140" height="548" rx="22" fill="#eaf2fa" stroke="#3478b8" stroke-width="2.5" stroke-dasharray="10 7"/>
+  <text x="435" y="183" class="zone">AWS · Dedicated VPC 10.20.0.0/16</text>
+  <rect x="435" y="205" width="1080" height="458" rx="16" fill="#f7fbff" stroke="#67a99f" stroke-width="2" stroke-dasharray="8 6"/>
+  <text x="460" y="238" class="small" fill="#218878">Public subnet 10.20.1.0/24</text>
+
+  <!-- Public DNS and user -->
+  <rect x="55" y="388" width="285" height="154" rx="16" class="box blue"/>
+  <text x="80" y="429" class="label">User / Browser</text>
+  <text x="80" y="460" class="body">https://sonar.bfithub.store</text>
+  <text x="80" y="487" class="body">DNS A record → Elastic IP</text>
+  <text x="80" y="514" class="body">HTTP :80 for ACME / redirect</text>
+  <path d="M340 455 H480" class="line"/>
+  <text x="367" y="438" class="small">DNS + HTTPS :443</text>
+
+  <!-- EC2 stack -->
+  <rect x="480" y="274" width="980" height="337" rx="20" fill="#fff" stroke="#286da5" stroke-width="3"/>
+  <text x="510" y="315" class="label">EC2 · Ubuntu 22.04 · t3.large</text>
+  <text x="510" y="341" class="small">Encrypted gp3 volume · IMDSv2 · Systems Manager access</text>
+  <rect x="510" y="370" width="263" height="180" rx="14" class="box orange"/>
+  <text x="535" y="411" class="label" fill="#c85f22">Nginx proxy</text>
+  <text x="535" y="442" class="body">Accepts web traffic</text>
+  <text x="535" y="468" class="body">TLS termination</text>
+  <text x="535" y="494" class="body">Let's Encrypt companion</text>
+  <text x="535" y="520" class="body">HTTP-01 + renewal</text>
+  <rect x="823" y="370" width="263" height="180" rx="14" class="box teal"/>
+  <text x="848" y="411" class="label" fill="#187e72">SonarQube</text>
+  <text x="848" y="442" class="body">Community Edition</text>
+  <text x="848" y="468" class="body">Web / API :9000</text>
+  <text x="848" y="494" class="body">Analysis dashboard</text>
+  <text x="848" y="520" class="body">Persistent data volume</text>
+  <rect x="1136" y="370" width="293" height="180" rx="14" class="box purple"/>
+  <text x="1161" y="411" class="label" fill="#7957b5">PostgreSQL 15</text>
+  <text x="1161" y="442" class="body">Database container</text>
+  <text x="1161" y="468" class="body">Internal Docker network</text>
+  <text x="1161" y="494" class="body">Persistent database volume</text>
+  <path d="M773 458 H823" class="line"/>
+  <text x="776" y="440" class="small">proxy</text>
+  <path d="M1086 458 H1136" class="line-purple"/>
+  <text x="1087" y="440" class="small" fill="#7957b5">DB :5432</text>
+  <text x="510" y="586" class="small">Docker Compose keeps application and database traffic on the host's internal container network.</text>
+
+  <!-- GitHub analysis flow -->
+  <text x="55" y="754" class="zone" fill="#18324b">SOURCE ANALYSIS FLOW</text>
+  <rect x="55" y="785" width="340" height="137" rx="16" class="box blue"/>
+  <text x="80" y="826" class="label">GitHub repository</text>
+  <text x="80" y="856" class="body">ecommerce-eks-terraform-</text>
+  <text x="80" y="882" class="body">infrastructure</text>
+  <rect x="500" y="785" width="410" height="137" rx="16" class="box blue"/>
+  <text x="525" y="826" class="label">GitHub Actions runner</text>
+  <text x="525" y="856" class="body">Checkout → SonarScanner → upload results</text>
+  <text x="525" y="882" class="body">SonarQube URL + token from Actions secrets</text>
+  <rect x="1050" y="785" width="495" height="137" rx="16" class="box teal"/>
+  <text x="1075" y="826" class="label" fill="#187e72">SonarQube analysis</text>
+  <text x="1075" y="856" class="body">Receives scan over HTTPS :443</text>
+  <text x="1075" y="882" class="body">Review quality gate, issues and hotspots</text>
+  <path d="M395 853 H500" class="line"/>
+  <path d="M910 853 H1050" class="line-green"/>
+  <text x="925" y="835" class="small" fill="#218878">HTTPS scan upload</text>
+  <path d="M1250 785 C1250 720 1000 720 1000 550" class="line-green"/>
+  <text x="1042" y="731" class="small" fill="#218878">analysis report / status</text>
+
+  <text x="56" y="966" class="small">Internet ingress is limited to ports 80 and 443; SonarQube :9000 and PostgreSQL :5432 are not internet-facing.</text>
+  </svg>
+</svg>
